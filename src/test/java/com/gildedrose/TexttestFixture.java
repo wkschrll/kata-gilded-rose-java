@@ -1,8 +1,22 @@
 package com.gildedrose;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class TexttestFixture {
-    public static void main(String[] args) {
-        System.out.println("OMGHAI!");
+    public static void main(String[] args) throws IOException {
+        String output = executeGoldenMasterTest(args);
+        System.out.println(output);
+        
+        // WRITE TO TEMPLATE FILE ONLY WITH ORIGINAL CODE 
+        // Files.writeString(Paths.get("goldenMasterTemplate.txt"), output);
+    }
+
+    public static String executeGoldenMasterTest(String[] args) {
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append("\r\nOMGHAI!");
 
         Item[] items = new Item[] {
                 new Item("+5 Dexterity Vest", 10, 20), //
@@ -24,14 +38,16 @@ public class TexttestFixture {
         }
 
         for (int i = 0; i < days; i++) {
-            System.out.println("-------- day " + i + " --------");
-            System.out.println("name, sellIn, quality");
+            buffer.append("\r\n-------- day " + i + " --------");
+            buffer.append("\r\nname, sellIn, quality");
             for (Item item : items) {
-                System.out.println(item);
+                buffer.append("\r\n" + item);
             }
-            System.out.println();
+            buffer.append("\r\n");
             app.updateQuality();
         }
+
+        return buffer.toString();
     }
 
 }
