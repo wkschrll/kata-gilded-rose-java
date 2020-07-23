@@ -1,12 +1,12 @@
 package com.gildedrose;
 
-public class Item {
+public abstract class Item {
 
-    public String name;
+    protected static final int MAX_QUALITY = 50;
 
-    public int sellIn;
-
-    public int quality;
+    protected String name;
+    protected int sellIn;
+    protected int quality;
 
     public Item(String name, int sellIn, int quality) {
         this.name = name;
@@ -14,8 +14,10 @@ public class Item {
         this.quality = quality;
     }
 
-   @Override
-   public String toString() {
+    public abstract void updateQuality();
+
+    @Override
+    public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
 }
