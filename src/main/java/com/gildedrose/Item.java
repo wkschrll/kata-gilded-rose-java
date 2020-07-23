@@ -18,4 +18,34 @@ public class Item {
    public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
+
+    public boolean hasQuality() {
+        return this.quality > 0;
+    }
+
+    public void incrementQuality() {
+        this.quality++;
+    }
+
+    public void decrementQuality() {
+        this.quality--;
+    }
+
+    
+
+    public void decrementSellIn() {
+        this.sellIn--;
+    }
+
+    public boolean hasSellIn() {
+        return this.sellIn >= 0;
+    }
+
+    public void resetQuality() {
+        this.quality = 0;
+    }
+
+    public boolean qualityLessThanFifty() {
+        return this.quality < 50;
+    }
 }

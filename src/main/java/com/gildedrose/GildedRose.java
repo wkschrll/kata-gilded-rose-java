@@ -9,54 +9,66 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
-                    }
-                }
+            Item currentItem = items[i];
+
+            if (notBrie(currentItem) && notBackstage(currentItem) && notSulfuras(currentItem) && currentItem.hasQuality()) {
+                currentItem.decrementQuality();
             } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
+                if (currentItem.qualityLessThanFifty()) {
+                    currentItem.incrementQuality();
 
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
+                    incrementBackstageQualityDependingOnSell(currentItem);
                 }
             }
 
-            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                items[i].sellIn = items[i].sellIn - 1;
+            if (notSulfuras(currentItem)) {
+                currentItem.decrementSellIn();
             }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals("Aged Brie")) {
-                    if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - 1;
-                            }
+            if (!currentItem.hasSellIn()) {
+                if (notBrie(currentItem)) {
+                    if (notBackstage(currentItem)) {
+                        if (currentItem.hasQuality() && notSulfuras(currentItem)) {
+                            currentItem.decrementQuality();
                         }
                     } else {
-                        items[i].quality = items[i].quality - items[i].quality;
+                        currentItem.resetQuality();
                     }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
+                }
+
+                if (isBrie(currentItem) && currentItem.qualityLessThanFifty()) {
+                    currentItem.incrementQuality();
                 }
             }
         }
     }
+
+    private void incrementBackstageQualityDependingOnSell(Item currentItem) {
+        if (currentItem.name.equals("Backstage passes to a TAFKAL80ETC concert") && currentItem.qualityLessThanFifty()) {
+            if (currentItem.sellIn < 11) {
+                currentItem.incrementQuality();
+            }
+
+            if (currentItem.sellIn < 6) {
+                currentItem.incrementQuality();
+            }
+        }
+    }
+
+    private boolean notBrie(Item item) {
+        return !item.name.equals("Aged Brie");
+    }
+
+    private boolean isBrie(Item item) {
+        return item.name.equals("Aged Brie");
+    }
+
+    private boolean notBackstage(Item item) {
+        return !item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+    }
+
+    private boolean notSulfuras(Item item) {
+        return !item.name.equals("Sulfuras, Hand of Ragnaros");
+    }
+
 }
