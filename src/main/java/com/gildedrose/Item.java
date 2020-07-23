@@ -31,8 +31,6 @@ public class Item {
         this.quality--;
     }
 
-    
-
     public void decrementSellIn() {
         this.sellIn--;
     }
