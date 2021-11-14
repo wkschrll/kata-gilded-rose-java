@@ -55,4 +55,4 @@ Hmm the tests seem to be broken, can you fix the "Golden"-Test?
 Do the different products age diffrently? Outline the evolution of the products.
 Since now we can be sure not to break things lets refactor this code to make it more readable!
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/modernSE/kata-refactoring-gilded-rose) 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/modernSE/kata-gilded-rose-java) 

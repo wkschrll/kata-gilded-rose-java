@@ -55,4 +55,4 @@ Entwickelt sich der Wert der Produkte im Laufe der Zeit unterschiedlich? Skizzie
 ## Aufgabe II
 Jetzt wo wir uns sicher sein können, dass wir nichts kaputt machen, wird es an der Zeit den Code lesbarer zu machen!
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/modernSE/kata-refactoring-gilded-rose) 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/modernSE/kata-gilded-rose-java) 
