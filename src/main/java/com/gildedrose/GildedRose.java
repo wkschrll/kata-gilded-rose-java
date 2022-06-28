@@ -20,40 +20,10 @@ class GildedRose {
                 doSomethingWithBackstagePass(item);
                 continue;
             }
-            // To do: Behandeln von SellIn und Behandeln von normalen Produkten danach Ausbau von altem Code (ab Zeile 24)
-            if (qualityDecreasesWithTime(item) && isQualityAboveMinimum(item)) {
-                    decreaseQuality(item);
-            } else {
-                if (isQualityBelowMaximum(item)) {
-                    increaseQuality(item);
-                    if (isBackstagePass(item)) {
-                        if (item.sellIn < 11 && isQualityBelowMaximum(item)) {
-                            increaseQuality(item);
-                        }
-                        if (item.sellIn < 6 && isQualityBelowMaximum(item)) {
-                            increaseQuality(item);
-                        }
-                    }
-                }
-            }
-
-
+            decreaseQuality(item);
             decreaseSellIn(item);
-
             if (item.sellIn < 0) {
-                if (!isBrie(item)) {
-                    if (!isBackstagePass(item)) {
-                        if (isQualityAboveMinimum(item)) {
-                            decreaseQuality(item);
-                        }
-                    } else {
-                        item.quality = item.quality - item.quality;
-                    }
-                } else {
-                    if (isQualityBelowMaximum(item)) {
-                        increaseQuality(item);
-                    }
-                }
+                decreaseQuality(item);
             }
         }
     }
@@ -67,9 +37,13 @@ class GildedRose {
             increaseQuality(item);
         }
         decreaseSellIn(item);
+        if (item.sellIn < 0) {
+            item.quality = item.quality - item.quality;     
+        }
     }
 
     private void doSomethingWithBrie(Item item) {
+        increaseQuality(item);
         decreaseSellIn(item);
         if (item.sellIn < 0) {
             increaseQuality(item);
@@ -107,10 +81,8 @@ class GildedRose {
     }
 
     private void decreaseQuality(Item item) {
-        item.quality = item.quality - 1;
-    }
-
-    private boolean qualityDecreasesWithTime(Item item) {
-        return !isBrie(item) && !isBackstagePass(item);
+        if(isQualityAboveMinimum(item)){
+            item.quality = item.quality - 1;
+        }
     }
 }
