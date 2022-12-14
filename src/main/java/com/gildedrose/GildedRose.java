@@ -7,7 +7,35 @@ class GildedRose {
         this.items = items;
     }
 
+    public void updateQualityBackstagePass(Item item) {
+        if (item.sellIn < 11) {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
+            }
+        }
+
+        if (item.sellIn < 6) {
+            if (item.quality < 50) {
+            item.quality = item.quality + 1;
+            }
+        }
+    }
+
     public void updateQuality() {
+        for (int i = 0; i < items.length; i++) {
+            switch(items[i].name) {
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    updateQualityBackstagePass(items[i]);
+                    break;
+                //case "Sulfuras, Hand of Ragnaros":
+                default:
+
+            }
+
+        }
+
+    }
+    public void updateQualityX() {
         for (int i = 0; i < items.length; i++) {
             if (!items[i].name.equals("Aged Brie")
                     && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
