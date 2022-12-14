@@ -10,23 +10,22 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            Item currenItem = items[i];
-            String currentName = currenItem.name;
+        for (Item currentItem : items) {
+            String currentName = currentItem.name;
             if (currentName.equals("Sulfuras, Hand of Ragnaros")) {
                 continue;
             }
 
-            currenItem.sellIn--;
+            currentItem.sellIn--;
 
             if (currentName.equals("Aged Brie")) {
-                increaseQuality(currenItem, calculateUpdateAmountAgedBrie(currenItem));
+                increaseQuality(currentItem, calculateUpdateAmountAgedBrie(currentItem));
             } else if (currentName.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                increaseQuality(currenItem, calculateUpdateAmountQualityBackstagePasses(currenItem));
+                increaseQuality(currentItem, calculateUpdateAmountQualityBackstagePasses(currentItem));
             } else {
-                reduceQualityByOne(currenItem);
-                if (currenItem.sellIn < 0) {
-                    reduceQualityByOne(currenItem);
+                reduceQualityByOne(currentItem);
+                if (currentItem.sellIn < 0) {
+                    reduceQualityByOne(currentItem);
                 }
             }
         }
