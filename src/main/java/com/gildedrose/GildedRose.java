@@ -1,7 +1,14 @@
 package com.gildedrose;
 
+import java.util.Arrays;
+import java.util.List;
+
 class GildedRose {
     Item[] items;
+
+    private final String SULFURAS = "Sulfuras, Hand of Ragnaros";
+    private final String AGED_BRIE = "Aged Brie";
+    private final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -9,54 +16,60 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
-                    }
+            var currentItem = items[i];
+
+            if (isNotIn(currentItem.name, Arrays.asList(SULFURAS, AGED_BRIE, BACKSTAGE_PASS))) {
+                if (isQualityHigher(currentItem.quality, 0)) {
+                        currentItem.quality--;
                 }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
+            } else if (isQualityLower(currentItem.quality, 50)) {
+                currentItem.quality++;
 
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
+                if (currentItem.name.equals(BACKSTAGE_PASS)) {
+                    if (isSellValueLower(currentItem.sellIn, 11) && isQualityLower(currentItem.quality, 50)) {
+                        currentItem.quality++;
+                    }
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
+                    if (isSellValueLower(currentItem.sellIn, 6) && isQualityLower(currentItem.quality, 50)) {
+                        currentItem.quality++;
                     }
                 }
             }
 
-            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                items[i].sellIn = items[i].sellIn - 1;
+            if (!currentItem.name.equals(SULFURAS)) {
+                currentItem.sellIn--;
             }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals("Aged Brie")) {
-                    if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - 1;
-                            }
+            if (isSellValueLower(currentItem.sellIn, 0)) {
+                if (!currentItem.name.equals(AGED_BRIE)) {
+                    if (!currentItem.name.equals(BACKSTAGE_PASS)) {
+                        if (isQualityHigher(currentItem.quality, 0) && !currentItem.name.equals(SULFURAS)) {
+                            currentItem.quality--;
                         }
                     } else {
-                        items[i].quality = items[i].quality - items[i].quality;
+                        currentItem.quality -= currentItem.quality;
                     }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
+                } else if (isQualityLower(currentItem.quality, 50)) {
+                    currentItem.quality++;
                 }
             }
         }
     }
+
+    private Boolean isQualityLower(Integer qualityOfItem, Integer expectedQuality){
+        return qualityOfItem < expectedQuality;
+    }
+
+    private Boolean isQualityHigher(Integer qualityOfItem, Integer expectedQuality){
+        return qualityOfItem > expectedQuality;
+    }
+
+    private Boolean isNotIn(String nameOfItem, List<String> names){
+        return !names.contains(nameOfItem);
+    }
+
+    private Boolean isSellValueLower(Integer sellValue, Integer expectedValue){
+        return sellValue < expectedValue;
+    }
+
 }
