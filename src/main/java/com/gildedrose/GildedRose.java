@@ -9,27 +9,14 @@ class GildedRose {
     public void updateQuality() {
         for (Item item: items) {
             if (isNotAgedBrie(item) && isNotBackstagePass(item)) {
-                if (item.quality > 0) {
-                    if (isNotSulfuras(item)) {
-                        item.quality--;
-                    }
-                }
+                decrementDownToZeroNotSulfurasItemQuality(item);
             } else {
                 if (item.quality < 50) {
                     item.quality++;
 
-                    if (isBackstagePass(item)) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality++;
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality++;
-                            }
-                        }
+                    if (isBackstagePass(item) && item.quality < 50) {
+                        incrementQuality(item, 11);
+                        incrementQuality(item, 6);
                     }
                 }
             }
@@ -41,13 +28,9 @@ class GildedRose {
             if (item.sellIn < 0) {
                 if (isNotAgedBrie(item)) {
                     if (isNotBackstagePass(item)) {
-                        if (item.quality > 0) {
-                            if (isNotSulfuras(item)) {
-                                item.quality--;
-                            }
-                        }
+                        decrementDownToZeroNotSulfurasItemQuality(item);
                     } else {
-                        // item.quality = item.quality - item.quality;
+                        // potential bug?
                         item.quality = 0;
                     }
                 } else {
@@ -56,6 +39,18 @@ class GildedRose {
                     }
                 }
             }
+        }
+    }
+
+    private void incrementQuality(Item item, int maxSellIn) {
+        if (item.sellIn < maxSellIn) {
+            item.quality++;
+        }
+    }
+
+    private void decrementDownToZeroNotSulfurasItemQuality(Item item) {
+        if (item.quality > 0 && isNotSulfuras(item)) {
+            item.quality--;
         }
     }
 
