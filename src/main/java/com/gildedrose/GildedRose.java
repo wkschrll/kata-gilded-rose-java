@@ -7,29 +7,34 @@ class GildedRose {
         this.items = items;
     }
 
+    private void tryEnhanceQuality(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+        }
+    }
+
     private void updateQualityForAgedBrie(Item agedBrie) {
         assert agedBrie.name.equals("Aged Brie");
 
         agedBrie.sellIn -= 1;
 
-        if (agedBrie.quality < 50 && agedBrie.sellIn < 0) {
-            agedBrie.quality += 2;
-        } else if (agedBrie.quality < 50) {
-            agedBrie.quality += 1;
+        tryEnhanceQuality(agedBrie);
+
+        if (agedBrie.sellIn < 0) {
+            tryEnhanceQuality(agedBrie);
         }
     }
 
     private void updateQualityForBackstagePasses(Item backstagePasses) {
         assert backstagePasses.name.equals("Backstage passes to a TAFKAL80ETC concert");
 
-        if (backstagePasses.quality < 50) {
-            backstagePasses.quality += 1;
-        }
+        tryEnhanceQuality(backstagePasses);
 
-        if (backstagePasses.quality < 50 && backstagePasses.sellIn < 6) {
-            backstagePasses.quality += 2;
-        } else if (backstagePasses.quality < 50 && backstagePasses.sellIn < 11) {
-            backstagePasses.quality += 1;
+        if (backstagePasses.sellIn < 11) {
+            tryEnhanceQuality(backstagePasses);
+        }
+        if (backstagePasses.sellIn < 6) {
+            tryEnhanceQuality(backstagePasses);
         }
 
         backstagePasses.sellIn -= 1;
@@ -56,8 +61,8 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (Item item: items) {
-            switch(item.name) {
+        for (Item item : items) {
+            switch (item.name) {
                 case "Aged Brie":
                     updateQualityForAgedBrie(item);
                     break;
@@ -67,7 +72,8 @@ class GildedRose {
                 case "Sulfuras, Hand of Ragnaros":
                     updateQualityForSulfuras(item);
                     break;
-                default: updateQualityDefault(item);
+                default:
+                    updateQualityDefault(item);
             }
         }
     }
